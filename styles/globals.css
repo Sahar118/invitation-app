@@ -21,3 +21,17 @@
   margin-top: 2rem;
   margin-inline: 3rem;
 }
+.modal-button{
+  padding: .5rem 3rem;
+  margin: 1rem;
+}
+
+.modal-button:hover{
+  background-color: rgb(11, 84, 11);
+  color: white;
+}
+
+.modal{
+  text-align: center;
+  
+}
