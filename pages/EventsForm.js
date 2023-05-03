@@ -1,19 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Col, Form, Modal, Row, message } from 'antd'
+import { createEvent } from "@/api/api";
 
-const EventsForm = ({ showEventsFromModal,
+
+
+
+const EventsForm = ({
+    showEventsFromModal,
     setShowEventsFromModal,
-    selectEvent,
-    setSelectEvent,
-    formType,
     getData }) => {
 
+
+    const [formType, setFormType] = useState("add");
 
     const onFinish = async (values) => {
         try {
             let response = null;
-            response = await AddEvent(values)
-
+            if (formType === 'add') {
+                response = await createEvent(values)
+            }
+            else {
+                message.error(response.message)
+            }
             if (response.success) {
                 getData()
                 message.success(response.message);
@@ -22,6 +30,7 @@ const EventsForm = ({ showEventsFromModal,
                 message.error(response.message)
             }
         } catch (error) {
+
             message.error(error.message)
         }
 
@@ -30,9 +39,9 @@ const EventsForm = ({ showEventsFromModal,
         <Modal
             className='modal'
             open={showEventsFromModal}
+
             onCancel={() => {
                 setShowEventsFromModal(false)
-                setSelectEvent(null)
             }}
             footer={null}
             width={800}
@@ -41,12 +50,11 @@ const EventsForm = ({ showEventsFromModal,
             <Form
                 layout='vertical'
                 onFinish={onFinish}
-                initialValues={selectEvent}
                 key='admin-events-form'
             >
                 <Row gutter={70} >
                     <Col span={30}>
-                        <Form.Item label="Event Name" name='name'>
+                        <Form.Item label="Event Name" name='name' >
                             <input type='text' />
                         </Form.Item>
                     </Col>
@@ -80,7 +88,6 @@ const EventsForm = ({ showEventsFromModal,
                         type='button'
                         onClick={() => {
                             setShowEventsFromModal(false)
-                            // setSelectEvent(null)
                         }}
                     >Cancel</button>
                 </div>

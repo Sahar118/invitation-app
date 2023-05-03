@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { message, Table } from "antd";
 import moment from "moment/moment";
 import EventsForm from "./EventsForm";
+import { getAllEvents } from "@/api/api";
+
+
 
 export default function Home() {
   const [events, setEvents] = useState([])
@@ -9,12 +12,9 @@ export default function Home() {
 
   const getData = async () => {
     try {
-      const response = await GetAllEvent();
-      if (response.success) {
-        setEvents(response.data)
-      } else {
-        message.error(response.message)
-      }
+      const response = await getAllEvents();
+      setEvents(response)
+
     } catch (error) {
       message.error(error.message)
     }
@@ -64,6 +64,8 @@ export default function Home() {
 
       <div>
         <button className="button-new-event pointer"
+          variant='outlined'
+
           onClick={() => {
             setShowEventsFromModal(true);
           }}>Add New Event</button>
