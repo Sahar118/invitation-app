@@ -1,4 +1,5 @@
-const { createPool } = require('mysql')
+const { createPool } = require('mysql');
+const { resolve } = require('styled-jsx/css');
 
 const pool = createPool({
     host: "localhost",
@@ -15,4 +16,20 @@ pool.getConnection((err) => {
     console.log('Connected to DB successfully');
 });
 
-module.exports = pool; 
+const executeQuery = (query, arraParms) => {
+    return new Promise((resolve, reject) => {
+        try {
+            pool.query(query, arraParms, (err, data) => {
+                if (err) {
+                    console.log("error in executing the query");
+                    reject(err)
+                }
+                resolve(data)
+            })
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+module.exports = { executeQuery }; 
