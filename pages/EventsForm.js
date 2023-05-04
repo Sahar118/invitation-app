@@ -2,38 +2,43 @@ import React, { useState } from 'react'
 import { Col, Form, Modal, Row, message } from 'antd'
 import { createEvent } from "@/api/api";
 
-
-
-
 const EventsForm = ({
     showEventsFromModal,
     setShowEventsFromModal,
+    setEvents,
     getData }) => {
 
 
-    const [formType, setFormType] = useState("add");
-
-    const onFinish = async (values) => {
-        try {
-            let response = null;
-            if (formType === 'add') {
-                response = await createEvent(values)
-            }
-            else {
-                message.error(response.message)
-            }
-            if (response.success) {
-                getData()
-                message.success(response.message);
-                setShowEventsFromModal(false);
-            } else {
-                message.error(response.message)
-            }
-        } catch (error) {
-
-            message.error(error.message)
+    // const [formType, setFormType] = useState("add");
+    const [formData, setFormData] = useState({});
+    // const onFinish = async (values) => {
+    //     try {
+    //         let response = null;
+    //         if (formType === 'add') {
+    //             response = await createEvent(values)
+    //         }
+    //         else {
+    //             message.error(response.message)
+    //         }
+    //         if (response.success) {
+    //             getData()
+    //             message.success(response.message);
+    //             setShowEventsFromModal(false);
+    //         } else {
+    //             message.error(response.message)
+    //         }
+    //     } catch (error) {
+    //         message.error(error.message)
+    //     }
+    // }
+    async function submitHandler(e) {
+        e.preventDefault();
+        await createEvent(formData);
+        async function fetchData() {
+            const events = await getAllEvents();
+            setEvents(events);
         }
-
+        fetchData();
     }
     return (
         <Modal
@@ -49,7 +54,7 @@ const EventsForm = ({
             <h1>Add New Event</h1>
             <Form
                 layout='vertical'
-                onFinish={onFinish}
+                onSubmit={submitHandler}
                 key='admin-events-form'
             >
                 <Row gutter={70} >

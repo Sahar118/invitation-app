@@ -3,6 +3,7 @@ const Event = require("../model/Events");
 
 const createEvent = asyncHandler(async (req, res, next) => {
     const event = await Event.create(req.body);
+    console.log(event);
     res.status(200).json({
         success: true,
         data: event,

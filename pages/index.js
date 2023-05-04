@@ -14,7 +14,6 @@ export default function Home() {
     try {
       const response = await getAllEvents();
       setEvents(response)
-
     } catch (error) {
       message.error(error.message)
     }
@@ -74,6 +73,7 @@ export default function Home() {
       <div className="table-div">
         <Table className="table" columns={columns} dataSource={events} />
         {showEventsFromModal && <EventsForm
+          setEvents={setEvents}
           showEventsFromModal={showEventsFromModal}
           setShowEventsFromModal={setShowEventsFromModal}
           getData={getData}

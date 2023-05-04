@@ -4,19 +4,16 @@ const connectDB = require("./config/dbConfig");
 const router = require("./routes/router.js");
 const cors = require("cors");
 
-dotenv.config({ path: "./config/config.env" });
+dotenv.config({ path: "./config/.env" });
 
 connectDB();
 
 const app = express();
-
 app.use(express.json());
-
 app.use(cors());
-
 app.use("/api/v1", router);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(
     PORT,
